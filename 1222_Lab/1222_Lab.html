@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Probability Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .dice-image {
+            width: 50px; /* Adjust the width of the dice image */
+            height: 50px; /* Adjust the height of the dice image */
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dice Probability Calculator</h1>
+    <button onclick="rollDice()">Roll 12 Dice</button>
+    <div id="result"></div>
+
+    <script>
+        function rollDice() {
+            const numberOfDice = 12;
+            let result = Array.from({ length: numberOfDice }, () => Math.floor(Math.random() * 6) + 1);
+            displayResult(result);
+        }
+
+        function displayResult(result) {
+            const counts = Array(6).fill(0);
+
+            result.forEach(face => {
+                counts[face - 1]++;
+            });
+
+            const probability = counts.map(count => (count / result.length * 100).toFixed(2) + '%');
+
+            let resultHtml = '<p>Results:</p>';
+            for (let i = 0; i < result.length; i++) {
+                resultHtml += `<img src="die${result[i]}.png" alt="Dice ${result[i]}" class="dice-image">`;
+            }
+
+            resultHtml += '<p>Probability:</p>';
+            for (let i = 0; i < 6; i++) {
+                resultHtml += `<p>Face ${i + 1}: ${probability[i]}</p>`;
+            }
+
+            document.getElementById('result').innerHTML = resultHtml;
+        }
+    </script>
+</body>
+</html>
+
